@@ -1,7 +1,5 @@
-from flask import Flask, render_template, url_for, request, redirect
-# from flask_sqlalchemy import SQLAlchemy
-# from datetime import datetime
-from sqlalchemy import create_engine, select
+from flask import Flask, render_template, request, redirect
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models.base import Base
 from models.models import Ingredient, Recipe
