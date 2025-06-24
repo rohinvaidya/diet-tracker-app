@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    {% if recipes|length < 1 %}
+        <h2 style = "text-align: center">There are no recipes. Create one below!</h2>
+    {% else %}
+        <h2 style = "text-align: center">Your Recipes</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Recipes</th>
+                <th>Added</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recipe in recipes %}
+                <tr>
+                    <td id = "{{ recipe.name }}">{{ recipe.name }}</td>
+                    <td>{{ recipe.date_created.date() }}</td>
+                    <td>
+                        <div class="list-group list-group-horizontal mt-3">
+                            <button type="button" id="update_{{ recipe.id }}" class="list-group-item list-group-item-action">Update Recipe</button>
+                            <button type="button" id="delete_{{ recipe.id }}" class="list-group-item list-group-item-action">Delete Recipe</button>
+                        </div>
+                    </td>
+                </tr>
+                <script>
+                    document.getElementById('update_{{ recipe.id }}').addEventListener('click', function() {
+                        const keyword = document.getElementById('{{ recipe.name }}').innerHTML;
+                        window.location.href = `/update/{{recipe.id}}=${encodeURIComponent(keyword)}`;
+                    });
+                    document.getElementById('delete_{{ recipe.id }}').addEventListener('click', function() {
+                        const keyword = document.getElementById('{{ recipe.name }}').innerHTML;
+                        window.location.href = `/delete/{{recipe.id}}=${encodeURIComponent(keyword)}`;
+                    });
+                </script>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <form class="form-control" action="/" method="POST">
+        <input class="form-control" type="text" name="name" placeholder="Enter a new recipe" id="name" required>
+        <br/>
+        <button class="form-control" type="submit">Add a New Recipe</button>
+    </form>
+{% endblock %}

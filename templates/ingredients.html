@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <form class="form-control" action="/" method="POST">
+        <div id="inputContainer">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="manualEntry" checked>
+                <label class="form-check-label" for="manualEntry">Manually Enter Ingredient Details</label>
+            </div>
+            <div class="list-group list-group-horizontal cols-1 mt-3">
+                <button type="button" onclick="addIngredient()" class="list-group-item list-group-item-action">+</button>
+                <button type="submit" id="removeIngredientBtn" class="list-group-item list-group-item-action">-</button>
+            </div>
+        
+            <script>
+                let ingredientCount = 0;
+
+                function addIngredient() {
+                    ingredientCount++;
+                    const inputContainer = document.getElementById('inputContainer');
+                    for (let i = 0; i < 6; i++) {
+                        const newInput = document.createElement('div');
+                        newInput.className = 'input-group mb-3';
+                        newInput.innerHTML = `
+                            <span class="input-group-text" id="inputGroup-${i}-${ingredientCount}">Ingredient ${ingredientCount} - ${['Name', 'Brand Name', 'Quantity', 'Calories', 'Protein', 'Carbohydrates'][i]}</span>
+                            <input class="form-control" type="text" name="${['name', 'brand_name', 'quantity', 'calories', 'protein', 'carbohydrates'][i]}_${ingredientCount}" aria-describedby="inputGroup-${i}-${ingredientCount}" placeholder="Enter ${['name', 'brand name', 'quantity', 'calories', 'protein', 'carbohydrates'][i]}" required>
+                        `;
+                        inputContainer.appendChild(newInput);
+
+                    }
+
+                }
+                event.preventDefault(); // Prevent default form submission
+            </script>
+
+            <button class="form-control" type="submit">Add Ingredients</button>
+    </form>
+{% endblock %}
